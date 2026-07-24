@@ -8,8 +8,10 @@ class Node:
             id: Student ID (used as sorting key)
             name: Student name
         """
-        # Replace this code with your implementation
-        raise NotImplementedError
+        self.id = id
+        self.name = name
+        self.left = None
+        self.right = None
 
     def preorder(self) -> list[dict]:
         """Return preorder traversal as list of dicts.
@@ -17,8 +19,13 @@ class Node:
         Returns:
             List of {id, name} dicts in preorder (root, left, right)
         """
-        # Replace this code with your implementation
-        raise NotImplementedError
+        list_of_dicts = [{"id": self.id, "name": self.name}]
+        if self.left is not None:
+            list_of_dicts.extend(self.left.preorder())
+        if self.right is not None:
+            list_of_dicts.extend(self.right.preorder())
+        return list_of_dicts
+
 
     def inorder(self) -> list[dict]:
         """Return inorder traversal as list of dicts.
@@ -26,8 +33,13 @@ class Node:
         Returns:
             List of {id, name} dicts in inorder (left, root, right)
         """
-        # Replace this code with your implementation
-        raise NotImplementedError
+        list_of_dicts = []
+        if self.left is not None:
+            list_of_dicts.extend(self.left.inorder())
+        list_of_dicts.extend([{"id": self.id, "name": self.name}])
+        if self.right is not None:
+            list_of_dicts.extend(self.right.inorder())
+        return list_of_dicts
 
     def postorder(self) -> list[dict]:
         """Return postorder traversal as list of dicts.
@@ -35,8 +47,13 @@ class Node:
         Returns:
             List of {id, name} dicts in postorder (left, right, root)
         """
-        # Replace this code with your implementation
-        raise NotImplementedError
+        list_of_dicts = []
+        if self.left is not None:
+            list_of_dicts.extend(self.left.postorder())
+        if self.right is not None:
+            list_of_dicts.extend(self.right.postorder())
+        list_of_dicts.extend([{"id": self.id, "name": self.name}])
+        return list_of_dicts
 
 
 class Tree:
@@ -56,8 +73,27 @@ class Tree:
         Note:
             If id already exists, this operation should be ignored.
         """
-        # Replace this code with your implementation
-        raise NotImplementedError
+        if self.root is None:
+            self.root = Node(id, name)
+        else:
+            curr_node = self.root
+            node_placed = False
+            while not node_placed:
+                if id > curr_node.id:
+                    if curr_node.right is None:
+                        curr_node.right = Node(id, name)
+                        node_placed = True
+                    else:
+                        curr_node = curr_node.right
+                elif id < curr_node.id:
+                    if curr_node.left is None:
+                        curr_node.left = Node(id, name)
+                        node_placed = True
+                    else:
+                        curr_node = curr_node.left
+                else:
+                    node_placed = True
+
 
     def find_node(self, id: int):
         """Find a student node by ID.
@@ -68,8 +104,22 @@ class Tree:
         Returns:
             Node object if found, None otherwise
         """
-        # Replace this code with your implementation
-        raise NotImplementedError
+        if self.root is None:
+            return None
+        node_found = False
+        curr_node = self.root
+        while not node_found:
+            if id == curr_node.id:
+                return curr_node
+            elif id > curr_node.id:
+                if curr_node.right is None:
+                    return None
+                curr_node = curr_node.right
+            elif id < curr_node.id:
+                if curr_node.left is None:
+                    return None
+                curr_node = curr_node.left
+        
 
     def preorder(self) -> list[dict]:
         """Return preorder traversal of tree.
@@ -77,8 +127,8 @@ class Tree:
         Returns:
             List of {id, name} dicts in preorder (root, left, right)
         """
-        # Replace this code with your implementation
-        raise NotImplementedError
+        return [] if self.root is None else self.root.preorder()
+
 
     def inorder(self) -> list[dict]:
         """Return inorder traversal of tree.
@@ -86,8 +136,8 @@ class Tree:
         Returns:
             List of {id, name} dicts in inorder (left, root, right)
         """
-        # Replace this code with your implementation
-        raise NotImplementedError
+        return [] if self.root is None else self.root.inorder()
+        
 
     def postorder(self) -> list[dict]:
         """Return postorder traversal of tree.
@@ -95,8 +145,8 @@ class Tree:
         Returns:
             List of {id, name} dicts in postorder (left, right, root)
         """
-        # Replace this code with your implementation
-        raise NotImplementedError
+        return [] if self.root is None else self.root.postorder()
+        
 
 
 # Sample data for testing
